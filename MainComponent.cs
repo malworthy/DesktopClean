@@ -38,7 +38,6 @@ namespace DesktopClean
             return result;
         }
 
-        #region EventHandlers
         private void cleanNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Cleanup(true);
@@ -97,7 +96,7 @@ namespace DesktopClean
         {
             Cleanup(false);
         }
-        #endregion
+
 
         /// <summary>
         /// Enables timer control and sets interval to user setting.

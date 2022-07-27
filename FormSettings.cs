@@ -14,17 +14,11 @@ namespace DesktopClean
 
     public partial class FormSettings : Form
     {
-        #region Constructors
         public FormSettings()
         {
             InitializeComponent();
-            //if (Settings.Default.FirstTimeRun)
-            //    this.WindowState = FormWindowState.Normal;
             cboHoursMinutes.SelectedIndex = 0;
         }
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Sets controls on form to match application settings.
@@ -88,7 +82,6 @@ namespace DesktopClean
                     return false;
             }
 
-
             decimal minutesLeaveFor = numLeaveFor.Value;
             if (cboHoursMinutes.Text == "Hours")
                 minutesLeaveFor = minutesLeaveFor * 60;
@@ -104,19 +97,9 @@ namespace DesktopClean
             Settings.Default.FileExistsSetting = cboFileExists.SelectedIndex;
 
             Settings.Default.Save();
-            //EnableTimer();
 
             return true;
         }
-        ///// <summary>
-        ///// Enables timer control and sets interval to user setting.
-        ///// </summary>
-        //private void EnableTimer()
-        //{
-        //    timer1.Enabled = Settings.Default.AutoClean;
-        //    if (timer1.Enabled)
-        //        timer1.Interval = (Settings.Default.CheckFiles * 1000) * 60;
-        //}
 
         /// <summary>
         /// Performs the cleanup.
@@ -128,94 +111,18 @@ namespace DesktopClean
             cleaner.CleanALL = cleanALL;
             cleaner.Cleanup();
         }
-        #endregion
-
-        #region EventHandlers
-        //private void cleanNowToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    SaveSettings();
-        //    Cleanup(false); 
-        //}
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
             LoadSettings();
-            //if (!Settings.Default.FirstTimeRun)
-            //{
-            //    Hide();
-            //    Cleanup(false);
-            //    EnableTimer();
-            //}
+            
         }
-
-        private void FormSettings_Resize(object sender, EventArgs e)
-        {
-            //if (FormWindowState.Minimized == WindowState)
-            //    Hide();
-        }
-
-        //private void notifyIcon1_DoubleClick(object sender, EventArgs e)
-        //{
-        //    Show();
-        //    WindowState = FormWindowState.Normal;
-
-        //}
-
-        //private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    Close();
-        //    Dispose();
-        //}
 
         private void butOK_Click(object sender, EventArgs e)
         {
             if (SaveSettings())
                 Hide();
         }
-
-        //private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
-        //{
-        //    if (e.CloseReason == CloseReason.UserClosing)
-        //    {
-        //        e.Cancel = true;
-        //        Hide();
-        //    }
-        //}
-
-        //private void showLogToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (Settings.Default.TextEditor == "")
-        //            Process.Start(Cleaner.LogFile);
-        //        else
-        //            Process.Start(Settings.Default.TextEditor, Cleaner.LogFile);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "Cannot show Log.");
-        //    }
-        //}
-
-        //private void openCleanupFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (Settings.Default.FileExplorer == "")
-        //            Process.Start(Settings.Default.MoveToPath);
-        //        else
-        //            Process.Start(Settings.Default.FileExplorer, Settings.Default.MoveToPath);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "Cannot Display Cleanup Folder.");
-        //    }
-        //}
-
-        //private void timer1_Tick(object sender, EventArgs e)
-        //{
-        //    Cleanup(false);
-        //}
 
         private void butBrowse_Click(object sender, EventArgs e)
         {
@@ -228,7 +135,5 @@ namespace DesktopClean
         {
             Hide();
         }
-        #endregion
-
     }
 }

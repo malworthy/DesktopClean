@@ -34,63 +34,40 @@ namespace DesktopClean
     /// </summary>
     internal class Cleaner
     {
-        #region Fields
         public const string LogFile = "DesktopClean.log";
         private bool cleanALL = false;
-        #endregion
 
-        #region Properties
-        /// <summary>
-        /// Gets or sets a flag that determines if all files are moved, regardless of the LeaveFor setting
-        /// </summary>
         public bool CleanALL
         {
             get { return cleanALL; }
             set { cleanALL = value; }
         }
 
-        /// <summary>
-        /// Gets setting for action to be performed when a file exists
-        /// </summary>
         private FileExistsOption FileExistsAction
         {
             get { return (FileExistsOption)Settings.Default.FileExistsSetting; }
         }
 
-        /// <summary>
-        /// Gets the cleanup path setting.  This is the path that files from the desktop are moved to
-        /// </summary>
         private string CleanupPath
         {
             get { return Settings.Default.MoveToPath; }
         }
 
-        /// <summary>
-        /// Gets the files to exclude from moving.  Contains a list of file wildcards separated by a semi-colon 
-        /// </summary>
         private string FilesToExclude
         {
             get { return Settings.Default.FilesToExclude; }
         }
 
-        /// <summary>
-        /// Gets the number of minutes since file was last accessed before moving
-        /// </summary>
         private long LeaveFor
         {
             get { return Settings.Default.LeaveFor; }
         }
         
-        /// <summary>
-        /// Gets the path to the desktop on current operating system.
-        /// </summary>
         private string DesktopPath
         {
             get { return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory); }
         }
-        #endregion
 
-        #region File operation methods
         /// <summary>
         /// Performs the cleanup action.  Moves files from desktop to another folder based on settings
         /// </summary>
@@ -146,11 +123,6 @@ namespace DesktopClean
             }
         }
 
-        /// <summary>
-        /// Moves a file and writes to the log file
-        /// </summary>
-        /// <param name="fileName">name of file to move</param>
-        /// <param name="newPath">the path where the file is being moved to</param>
         private void MoveFile(string fileName, string newPath)
         {
             try
@@ -185,11 +157,6 @@ namespace DesktopClean
             }
         }
 
-        /// <summary>
-        /// Adds a date/time stamp to a Filename
-        /// </summary>
-        /// <param name="destFileName">Full path and filename to be renamed</param>
-        /// <returns>Filename with date/time stamp added</returns>
         private string RenameFile(string destFileName)
         {
             string path = Path.GetDirectoryName(destFileName);
@@ -201,11 +168,6 @@ namespace DesktopClean
             return Path.Combine(path, newFileName) + extension;
         } 
 
-        /// <summary>
-        /// Moves an entire folder and all it's contents
-        /// </summary>
-        /// <param name="source">Folder to move</param>
-        /// <param name="destination">Path to move to</param>
         private void MoveFolder(string source, string destination)
         {
             try
@@ -245,13 +207,7 @@ namespace DesktopClean
         {
             return "^" + Regex.Escape(pattern).Replace("\\*", ".*").Replace("\\?", ".") + "$";
         }
-        #endregion
 
-        #region Log file methods
-        /// <summary>
-        /// Write a comment to the log file
-        /// </summary>
-        /// <param name="comment">comment string</param>
         private void WriteLogComment(string comment)
         {
             string logText = string.Format("{0}:  {1}", DateTime.Now, comment);
@@ -259,11 +215,6 @@ namespace DesktopClean
             File.AppendAllText(LogFile, Environment.NewLine);
         }
 
-        /// <summary>
-        /// Writes details of file moves to the log file.
-        /// </summary>
-        /// <param name="desktopFile">Name of File on desktop to be moved</param>
-        /// <param name="movedFile">Full Path and Filename of location where file was moved to</param>
         private void WriteLog(string desktopFile, string movedFile)
         {
             string logText = string.Format("{0}:  {1} -> {2}", DateTime.Now, desktopFile, movedFile);
@@ -271,17 +222,12 @@ namespace DesktopClean
             File.AppendAllText(LogFile, Environment.NewLine);
         }
 
-        /// <summary>
-        /// Write details of an exception to the log file
-        /// </summary>
-        /// <param name="ex">The Exception</param>
         private void WriteError(Exception ex, string filename)
         {
             string logText = string.Format("{0}: File: {1} - Error {2}", DateTime.Now, filename, ex.Message);
             File.AppendAllText(LogFile, logText);
             File.AppendAllText(LogFile, Environment.NewLine);
         }
-        #endregion
     }
 
 }
